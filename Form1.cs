@@ -17,6 +17,7 @@ namespace SEH_TestApplication
     public partial class PowerPointCreator : Form
     {
         public List<string> ImageURLs { get; set; }
+        public List<string> ImagePaths { get; set; }
 
         public PowerPointCreator()
         {
@@ -86,6 +87,7 @@ namespace SEH_TestApplication
             List<string> bolded = new List<string> { };
             List<string> thumbnails = new List<string> { };
             ImageURLs = new List<string> { };
+            ImagePaths = new List<string> { };
             List<PictureBox> imageBoxes = new List<PictureBox> { pictureBox1, pictureBox2, pictureBox3, 
                 pictureBox4, pictureBox5, pictureBox6, pictureBox7, pictureBox8, pictureBox9 };
 
@@ -154,7 +156,7 @@ namespace SEH_TestApplication
                 }
             }
 
-            GenerateSlide(folder);
+            GenerateSlide();
         }
 
         private async Task DownloadImageAsync(string directoryPath, string fileName, Uri uri)
@@ -172,32 +174,53 @@ namespace SEH_TestApplication
             // Download the image and write to the file
             var imageBytes = await httpClient.GetByteArrayAsync(uri);
             File.WriteAllBytes(path, imageBytes);
+
+            ImagePaths.Add(path);
         }
 
-        private void GenerateSlide(string folder)
+        private void GenerateSlide()
         {
             using (Presentation presentation = new Presentation())
             {
                 ISlide slide = presentation.Slides[0];
 
                 //Add content
-                IAutoShape shape = slide.Shapes.AddAutoShape(ShapeType.Rectangle, 300, 75, 300, 50);
-                shape.AddTextFrame(TitleTextBox.Text);
+                IAutoShape shape = slide.Shapes.AddAutoShape(ShapeType.Rectangle, 225, 75, 300, 50);
+                shape.AddTextFrame("");
                 ITextFrame textFrame = shape.TextFrame;
                 IParagraph desc = textFrame.Paragraphs[0];
                 IPortion portion = desc.Portions[0];
+                desc.Text = TitleTextBox.Text;
+
+                IAutoShape shape2 = slide.Shapes.AddAutoShape(ShapeType.Rectangle, 100, 150, 600, 600);
+                shape.AddTextFrame("");
+                ITextFrame textFrame2 = shape.TextFrame;
+                IParagraph desc2 = textFrame.Paragraphs[0];
+                IPortion portion2 = desc.Portions[0];
                 desc.Text = DescriptionTextBox.Text;
 
-                //var svgImg = presentation.Images.Add
+                //presentation.Save(TitleTextBox.Text + ".pptx", Aspose.Slides.Export.SaveFormat.Pptx);
 
-                //presentation.Slides[0].Shapes.AddPictureFrame(ShapeType.Rectangle, 0, 0, 100, 100, );
-                
+                //foreach (string path in ImagePaths)
+                //{
+                    //int i = ImagePaths.IndexOf(path);
 
+                    //using (FileStream strm = new FileStream(path, FileMode.Open))
+                    using (FileStream strm = new FileStream(ImagePaths[0], FileMode.Open))
+                    {
 
-                presentation.Save(TitleTextBox.Text + ".pptx", Aspose.Slides.Export.SaveFormat.Pptx);
+                        IPPImage img = presentation.Images.AddImage(strm, LoadingStreamBehavior.KeepLocked);
+
+                        presentation.Slides[0].Shapes.AddPictureFrame(ShapeType.Rectangle, 40, 30, 100, 100, img);
+
+                        presentation.Save(TitleTextBox.Text + ".pptx", Aspose.Slides.Export.SaveFormat.Pptx);
+                    }
+                //}
+
             }
 
             ImageURLs = new List<string> { };
+            ImagePaths = new List<string> { };
         }
     }
 }
