@@ -88,7 +88,7 @@ namespace SEH_TestApplication
             List<string> thumbnails = new List<string> { };
             ImageURLs = new List<string> { };
             ImagePaths = new List<string> { };
-            List<PictureBox> imageBoxes = new List<PictureBox> { pictureBox1, pictureBox2, pictureBox3, 
+            List<PictureBox> imageBoxes = new List<PictureBox> { pictureBox1, pictureBox2, pictureBox3,
                 pictureBox4, pictureBox5, pictureBox6, pictureBox7, pictureBox8, pictureBox9 };
 
             int index = 0;
@@ -109,14 +109,14 @@ namespace SEH_TestApplication
             }
 
             var pexelsClient = new PexelsClient("563492ad6f917000010000013a071a50d88f43419b2550f2a08eaced");
-            var result = await pexelsClient.SearchPhotosAsync(TitleTextBox.Text, "", "", "", "", 1, 5);
+            var result = await pexelsClient.SearchPhotosAsync(TitleTextBox.Text, "", "", "", "", 1, 9);
 
-            for(int i = 0; i < result.photos.Count; i++)
+            for (int i = 0; i < result.photos.Count; i++)
             {
                 thumbnails.Add(result.photos[i].source.tiny);
                 ImageURLs.Add(result.photos[i].source.original);
             }
-            
+
             foreach (string word in bolded)
             {
                 result = await pexelsClient.SearchPhotosAsync(word, "", "", "", "", 1, 5);
@@ -143,7 +143,7 @@ namespace SEH_TestApplication
 
         private async void GenerateButton_Click(object sender, EventArgs e)
         {
-            List<CheckBox> checkBoxes = new List<CheckBox> { checkBox1, checkBox2, checkBox3, checkBox4, 
+            List<CheckBox> checkBoxes = new List<CheckBox> { checkBox1, checkBox2, checkBox3, checkBox4,
                 checkBox5, checkBox6, checkBox7, checkBox8, checkBox9 };
             string folder = @"Resources\" + DateTime.Now.ToString("yyyy'-'MM'-'dd'-'HH'-'mm'-'ss");
 
@@ -180,44 +180,43 @@ namespace SEH_TestApplication
 
         private void GenerateSlide()
         {
-            using (Presentation presentation = new Presentation())
+            Presentation presentation = new Presentation();
+
+            ISlide slide = presentation.Slides[0];
+
+            //Add content
+            foreach (string path in ImagePaths)
             {
-                ISlide slide = presentation.Slides[0];
+                int i = ImagePaths.IndexOf(path);
 
-                //Add content
-                IAutoShape shape = slide.Shapes.AddAutoShape(ShapeType.Rectangle, 225, 75, 300, 50);
-                shape.AddTextFrame("");
-                ITextFrame textFrame = shape.TextFrame;
-                IParagraph desc = textFrame.Paragraphs[0];
-                IPortion portion = desc.Portions[0];
-                desc.Text = TitleTextBox.Text;
+                FileStream strm = new FileStream(path, FileMode.Open);
 
-                IAutoShape shape2 = slide.Shapes.AddAutoShape(ShapeType.Rectangle, 100, 150, 600, 600);
-                shape.AddTextFrame("");
-                ITextFrame textFrame2 = shape.TextFrame;
-                IParagraph desc2 = textFrame.Paragraphs[0];
-                IPortion portion2 = desc.Portions[0];
-                desc.Text = DescriptionTextBox.Text;
+                IPPImage img = presentation.Images.AddImage(strm, LoadingStreamBehavior.KeepLocked);
 
-                //presentation.Save(TitleTextBox.Text + ".pptx", Aspose.Slides.Export.SaveFormat.Pptx);
-
-                //foreach (string path in ImagePaths)
-                //{
-                    //int i = ImagePaths.IndexOf(path);
-
-                    //using (FileStream strm = new FileStream(path, FileMode.Open))
-                    using (FileStream strm = new FileStream(ImagePaths[0], FileMode.Open))
-                    {
-
-                        IPPImage img = presentation.Images.AddImage(strm, LoadingStreamBehavior.KeepLocked);
-
-                        presentation.Slides[0].Shapes.AddPictureFrame(ShapeType.Rectangle, 40, 30, 100, 100, img);
-
-                        presentation.Save(TitleTextBox.Text + ".pptx", Aspose.Slides.Export.SaveFormat.Pptx);
-                    }
-                //}
-
+                presentation.Slides[0].Shapes.AddPictureFrame(ShapeType.Rectangle, (400 * (i + 1)) / ImagePaths.Count, (300 * (i + 1)) / ImagePaths.Count, 300, 200, img);
             }
+
+            IAutoShape shape = slide.Shapes.AddAutoShape(ShapeType.Rectangle, 250, 75, 300, 50);
+            shape.ShapeStyle.LineColor.Color = Color.FromArgb(255, 255, 255, 255);
+            shape.ShapeStyle.FillColor.Color = Color.FromArgb(200, 255, 255, 255);
+            shape.ShapeStyle.FontColor.Color = Color.FromArgb(255, 0, 0, 0);
+            shape.AddTextFrame("");
+            ITextFrame textFrame = shape.TextFrame;
+            IParagraph para = textFrame.Paragraphs[0];
+            IPortion portion = para.Portions[0];
+            portion.Text = TitleTextBox.Text;
+
+            IAutoShape shape2 = slide.Shapes.AddAutoShape(ShapeType.Rectangle, 100, 150, 550, 375);
+            shape2.ShapeStyle.LineColor.Color = Color.FromArgb(255, 255, 255, 255);
+            shape2.ShapeStyle.FillColor.Color = Color.FromArgb(200, 255, 255, 255);
+            shape2.ShapeStyle.FontColor.Color = Color.FromArgb(255, 0, 0, 0);
+            shape2.AddTextFrame("");
+            ITextFrame textFrame2 = shape2.TextFrame;
+            IParagraph para2 = textFrame2.Paragraphs[0];
+            IPortion portion2 = para2.Portions[0];
+            portion2.Text = DescriptionTextBox.Text;
+
+            presentation.Save(TitleTextBox.Text + ".pptx", Aspose.Slides.Export.SaveFormat.Pptx);
 
             ImageURLs = new List<string> { };
             ImagePaths = new List<string> { };
