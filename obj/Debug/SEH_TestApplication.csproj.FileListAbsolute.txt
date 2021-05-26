@@ -1,0 +1,17 @@
+C:\Users\David\Desktop\SEH_TestApplication\bin\Debug\SEH_TestApplication.exe.config
+C:\Users\David\Desktop\SEH_TestApplication\bin\Debug\SEH_TestApplication.exe
+C:\Users\David\Desktop\SEH_TestApplication\bin\Debug\SEH_TestApplication.pdb
+C:\Users\David\Desktop\SEH_TestApplication\obj\Debug\SEH_TestApplication.csprojAssemblyReference.cache
+C:\Users\David\Desktop\SEH_TestApplication\obj\Debug\SEH_TestApplication.Properties.Resources.resources
+C:\Users\David\Desktop\SEH_TestApplication\obj\Debug\SEH_TestApplication.csproj.GenerateResource.cache
+C:\Users\David\Desktop\SEH_TestApplication\obj\Debug\SEH_TestApplication.csproj.CoreCompileInputs.cache
+C:\Users\David\Desktop\SEH_TestApplication\obj\Debug\SEH_TestApplication.exe
+C:\Users\David\Desktop\SEH_TestApplication\obj\Debug\SEH_TestApplication.pdb
+C:\Users\David\Desktop\SEH_TestApplication\obj\Debug\SEH_TestApplication.PowerPointCreator.resources
+C:\Users\David\Desktop\SEH_TestApplication\bin\Debug\Newtonsoft.Json.dll
+C:\Users\David\Desktop\SEH_TestApplication\bin\Debug\PexelsDotNetSDK.dll
+C:\Users\David\Desktop\SEH_TestApplication\bin\Debug\Newtonsoft.Json.xml
+C:\Users\David\Desktop\SEH_TestApplication\bin\Debug\PexelsDotNetSDK.xml
+C:\Users\David\Desktop\SEH_TestApplication\obj\Debug\SEH_TestApplication.csproj.CopyComplete
+C:\Users\David\Desktop\SEH_TestApplication\bin\Debug\Aspose.Slides.dll
+C:\Users\David\Desktop\SEH_TestApplication\bin\Debug\Aspose.Slides.xml
