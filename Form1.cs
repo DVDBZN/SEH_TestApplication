@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
@@ -22,6 +20,9 @@ namespace SEH_TestApplication
         public PowerPointCreator()
         {
             InitializeComponent();
+
+            ImageURLs = new List<string> { };
+            ImagePaths = new List<string> { };
         }
 
         private void BoldButton_Click(object sender, EventArgs e)
@@ -86,8 +87,6 @@ namespace SEH_TestApplication
         {
             List<string> bolded = new List<string> { };
             List<string> thumbnails = new List<string> { };
-            ImageURLs = new List<string> { };
-            ImagePaths = new List<string> { };
             List<PictureBox> imageBoxes = new List<PictureBox> { pictureBox1, pictureBox2, pictureBox3,
                 pictureBox4, pictureBox5, pictureBox6, pictureBox7, pictureBox8, pictureBox9 };
 
@@ -109,23 +108,32 @@ namespace SEH_TestApplication
             }
 
             var pexelsClient = new PexelsClient("563492ad6f917000010000013a071a50d88f43419b2550f2a08eaced");
-            var result = await pexelsClient.SearchPhotosAsync(TitleTextBox.Text, "", "", "", "", 1, 9);
 
-            for (int i = 0; i < result.photos.Count; i++)
+            try
             {
-                thumbnails.Add(result.photos[i].source.tiny);
-                ImageURLs.Add(result.photos[i].source.original);
-            }
-
-            foreach (string word in bolded)
-            {
-                result = await pexelsClient.SearchPhotosAsync(word, "", "", "", "", 1, 5);
+                var result = await pexelsClient.SearchPhotosAsync(TitleTextBox.Text, "", "", "", "", 1, 9);
 
                 for (int i = 0; i < result.photos.Count; i++)
                 {
                     thumbnails.Add(result.photos[i].source.tiny);
                     ImageURLs.Add(result.photos[i].source.original);
                 }
+
+                foreach (string word in bolded)
+                {
+                    result = await pexelsClient.SearchPhotosAsync(word, "", "", "", "", 1, 5);
+
+                    for (int i = 0; i < result.photos.Count; i++)
+                    {
+                        thumbnails.Add(result.photos[i].source.tiny);
+                        ImageURLs.Add(result.photos[i].source.original);
+                    }
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Please enter a title and description.", "Missing text", MessageBoxButtons.OK);
+                return;
             }
 
             List<int> indexes = Enumerable.Range(0, thumbnails.Count()).ToList();
@@ -185,15 +193,22 @@ namespace SEH_TestApplication
             ISlide slide = presentation.Slides[0];
 
             //Add content
-            foreach (string path in ImagePaths)
+            try
             {
-                int i = ImagePaths.IndexOf(path);
+                foreach (string path in ImagePaths)
+                {
+                    int i = ImagePaths.IndexOf(path);
 
-                FileStream strm = new FileStream(path, FileMode.Open);
+                    FileStream strm = new FileStream(path, FileMode.Open);
 
-                IPPImage img = presentation.Images.AddImage(strm, LoadingStreamBehavior.KeepLocked);
+                    IPPImage img = presentation.Images.AddImage(strm, LoadingStreamBehavior.KeepLocked);
 
-                presentation.Slides[0].Shapes.AddPictureFrame(ShapeType.Rectangle, (400 * (i + 1)) / ImagePaths.Count, (300 * (i + 1)) / ImagePaths.Count, 300, 200, img);
+                    presentation.Slides[0].Shapes.AddPictureFrame(ShapeType.Rectangle, (400 * (i + 1)) / ImagePaths.Count, (300 * (i + 1)) / ImagePaths.Count, 300, 200, img);
+                }
+            }
+            catch
+            {
+                return;
             }
 
             IAutoShape shape = slide.Shapes.AddAutoShape(ShapeType.Rectangle, 250, 75, 300, 50);
@@ -220,6 +235,8 @@ namespace SEH_TestApplication
 
             ImageURLs = new List<string> { };
             ImagePaths = new List<string> { };
+
+            MessageBox.Show("File located at " + Path.Combine(Application.StartupPath, TitleTextBox.Text + ".pptx"), "Slide Created!", MessageBoxButtons.OK);
         }
     }
 }

@@ -205,7 +205,7 @@
             this.panel1.Controls.Add(this.pictureBox3);
             this.panel1.Controls.Add(this.pictureBox2);
             this.panel1.Controls.Add(this.pictureBox1);
-            this.panel1.Location = new System.Drawing.Point(64, 305);
+            this.panel1.Location = new System.Drawing.Point(50, 294);
             this.panel1.Margin = new System.Windows.Forms.Padding(2);
             this.panel1.MinimumSize = new System.Drawing.Size(300, 400);
             this.panel1.Name = "panel1";
@@ -297,12 +297,12 @@
             // 
             this.GenerateButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.GenerateButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.GenerateButton.Location = new System.Drawing.Point(64, 722);
+            this.GenerateButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.GenerateButton.Location = new System.Drawing.Point(50, 707);
             this.GenerateButton.Margin = new System.Windows.Forms.Padding(2);
-            this.GenerateButton.MinimumSize = new System.Drawing.Size(85, 21);
+            this.GenerateButton.MinimumSize = new System.Drawing.Size(85, 36);
             this.GenerateButton.Name = "GenerateButton";
-            this.GenerateButton.Size = new System.Drawing.Size(299, 21);
+            this.GenerateButton.Size = new System.Drawing.Size(299, 36);
             this.GenerateButton.TabIndex = 13;
             this.GenerateButton.Text = "Generate Slide";
             this.GenerateButton.UseVisualStyleBackColor = true;
@@ -310,7 +310,8 @@
             // 
             // panel2
             // 
-            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel2.Controls.Add(this.TitleLabel);
             this.panel2.Controls.Add(this.TitleTextBox);
@@ -321,7 +322,7 @@
             this.panel2.Controls.Add(this.BoldButton);
             this.panel2.Controls.Add(this.StrikethroughButton);
             this.panel2.Controls.Add(this.ItalicsButton);
-            this.panel2.Location = new System.Drawing.Point(64, 64);
+            this.panel2.Location = new System.Drawing.Point(50, 50);
             this.panel2.Margin = new System.Windows.Forms.Padding(2);
             this.panel2.MinimumSize = new System.Drawing.Size(187, 104);
             this.panel2.Name = "panel2";
